@@ -25,7 +25,16 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-name.vercel.app"
+    ],
+    credentials: true
+  })
+);
+
 app.use(express.json());
 
 // ✅ Routes
@@ -39,10 +48,7 @@ app.use("/admin", adminRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/messages", messageRoutes);
 // ✅ MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
