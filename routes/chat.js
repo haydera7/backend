@@ -7,10 +7,6 @@ import Property from "../models/Property.js";
 dotenv.config();
 const router = express.Router();
 
-console.log(
-  "🔑 Hugging Face Key (first 10 chars):",
-  process.env.HUGGINGFACE_API_KEY?.slice(0, 10)
-);
 
 const HF_MODEL = "mistralai/Mistral-7B-Instruct-v0.2";
 
