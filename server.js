@@ -25,16 +25,14 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://smartrent-steel.vercel.app/"
-    ],
-    credentials: true
-  })
-);
-
+// allow frontend origin
+app.use(cors({
+  origin: [
+    "http://localhost:5173",               // local dev
+    "https://smartrent-steel.vercel.app"  // production frontend
+  ],
+  credentials: true, // allow cookies / auth headers
+}));
 app.use(express.json());
 
 // ✅ Routes
