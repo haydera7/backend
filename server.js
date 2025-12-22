@@ -26,13 +26,18 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
 // allow frontend origin
+// CORS middleware
 app.use(cors({
   origin: [
-    "http://localhost:5173",               // local dev
-    "https://smartrent-steel.vercel.app"  // production frontend
+    "http://localhost:5173",
+    "https://smartrent-steel.vercel.app"
   ],
-  credentials: true, // allow cookies / auth headers
+  credentials: true,
 }));
+
+// Preflight for all routes
+app.options("*", cors());
+
 app.use(express.json());
 
 // ✅ Routes
