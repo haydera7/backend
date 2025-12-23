@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
+import { protect } from "./middleware/Auth.js";
 import User from "./models/User.js";
 import Users from "./routes/user.js";
 import bcrypt from "bcrypt";
@@ -35,8 +36,7 @@ app.use(cors({
   credentials: true,
 }));
 
-// Preflight for all routes
-app.options("*", cors());
+
 
 app.use(express.json());
 
@@ -75,14 +75,11 @@ mongoose.connection.once("open", async () => {
   }
 });
 
-// ✅ Dummy user route (temporary)
-app.get("/api/user/me", (req, res) => {
-  const isLoggedIn = false;
-  if (!isLoggedIn) {
-    return res.status(401).json({ message: "Not logged in" });
-  }
-  res.json({ username: "Hayder", role: "landlord" });
+app.get("/api/user/me", protect, (req, res) => {
+  res.json(req.user);
 });
+
+
 
 // ✅ Start server
 const PORT = process.env.PORT || 3000;
